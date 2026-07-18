@@ -62,7 +62,6 @@ The work is grounded in real DCS operational practice, drawing on professional e
 └── README.md                     # This file
 ```
 
-> **Note:** The raw `.RData` dataset files are **not** stored in this repository. See [Dataset](#-dataset) below.
 
 ---
 
@@ -85,7 +84,8 @@ The dataset is **not redistributed in this repository** to keep it lightweight. 
 
 **1. Clone the repository**
 ```bash
-git clone https://github.com/yourusername/msc-thesis-tep-anomaly-detection.git
+git clone https://github.com/m-mudaffar/anomaly-detection <img width="468" height="24" alt="image" src="https://github.com/user-attachments/assets/5ecd4a1c-00f8-4274-aeaf-6b27ee7e51da" />
+
 cd msc-thesis-tep-anomaly-detection
 ```
 
@@ -162,7 +162,7 @@ All figures save automatically to `figures/`. Random seed fixed at `42` througho
 ## 🔹 Author
 
 **Maryam Ali**
-DCS Engineer, Yokogawa · MSc Artificial Intelligence, Bahrain Polytechnic
+DCS Engineer· MSc Artificial Intelligence, Bahrain Polytechnic
 📧 202509001@polytechnic.bh
 
 ---
