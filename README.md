@@ -72,7 +72,7 @@ This project uses the **Tennessee Eastman Process (TEP)** simulation dataset.
 | | |
 |---|---|
 | **Source** | [Harvard Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/6C3JR1) |
-| **Citation** | Rieth, C. A., Amsel, B. D., Tran, R., & Cook, M. B. (2017). *Tennessee Eastman Reference Simulation Dataset for Fault Detection*. Harvard Dataverse. doi:10.7910/DVN/6C3JR1 |
+| **Citation** | Rieth, C. A., Amsel, B. D., Tran, R., & Cook, M. B. *Tennessee Eastman Reference Simulation Dataset for Fault Detection*. Harvard Dataverse. doi:10.7910/DVN/6C3JR1 |
 | **License** | CC0 (public domain) |
 | **Size** | 52 process variables · 21 fault types + normal operation |
 
