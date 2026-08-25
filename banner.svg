@@ -1,0 +1,42 @@
+<svg viewBox="0 0 1200 260" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A2540"/>
+      <stop offset="100%" stop-color="#1E3A8A"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#60A5FA"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="260" fill="url(#bg)"/>
+
+  <polyline points="0,210 80,210 110,150 140,230 170,170 200,210 1200,210"
+            fill="none" stroke="#3B82F6" stroke-width="2" opacity="0.35"/>
+  <polyline points="0,225 80,225 110,190 140,245 170,200 200,225 1200,225"
+            fill="none" stroke="#60A5FA" stroke-width="1.5" opacity="0.25"/>
+
+  <rect x="0" y="0" width="10" height="260" fill="url(#accent)"/>
+
+  <text x="60" y="95" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="700" fill="#FFFFFF">
+    Anomaly Detection for
+  </text>
+  <text x="60" y="140" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="700" fill="#FFFFFF">
+    Distributed Control Systems
+  </text>
+  <text x="60" y="175" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#93C5FD">
+    Isolation Forest · Random Forest · LSTM Autoencoder — benchmarked on the full Tennessee Eastman Process dataset
+  </text>
+
+  <g font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#0A2540">
+    <rect x="60" y="200" width="118" height="28" rx="14" fill="#DBEAFE"/>
+    <text x="76" y="218">MSc AI Thesis</text>
+
+    <rect x="188" y="200" width="98" height="28" rx="14" fill="#DBEAFE"/>
+    <text x="204" y="218">15.3M rows</text>
+
+    <rect x="296" y="200" width="132" height="28" rx="14" fill="#DBEAFE"/>
+    <text x="312" y="218">SHAP explainable</text>
+  </g>
+</svg>
