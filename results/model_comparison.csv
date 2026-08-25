@@ -1,0 +1,5 @@
+,Paradigm,Train time (s),Precision,Recall,F1,ROC-AUC,Bal. Acc.
+Threshold (3σ),Rule-based,0,0.992,0.314,0.478,0.72,0.652
+Isolation Forest,Unsupervised,3,0.977,0.605,0.747,0.864,0.775
+Random Forest,Supervised,886,0.99,0.766,0.864,0.919,0.869
+LSTM Autoencoder,Semi-supervised,361,0.983,0.67,0.797,0.86,0.813
