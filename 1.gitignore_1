@@ -1,0 +1,28 @@
+# --- Data (never commit the raw TEP files, they exceed GitHub's size limits) ---
+# Keep this scoped to the raw-data folder so results/tables/*.csv still get committed.
+data/
+TEP_*.csv
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+venv/
+.venv/
+env/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- Large / generated artifacts ---
+models/*.h5
+models/*.pkl
+models/*.joblib
+*.log
+
+# --- OS / editor cruft ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

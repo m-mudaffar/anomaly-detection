@@ -1,0 +1,21 @@
+# Pinned dependencies for TEP_Thesis_Analysis_v5.ipynb
+#
+# These versions are a reasonable, mutually-compatible starting point for
+# Python 3.13. For a submission-exact requirements.txt, regenerate this file
+# from the environment you actually ran your final results in:
+#
+#   pip freeze > requirements.txt
+#
+# then replace this file with that output before your final commit, so the
+# pinned versions match the numbers reported in the thesis exactly.
+
+numpy>=1.26
+pandas>=2.2
+scikit-learn>=1.5
+tensorflow>=2.16
+shap>=0.45
+scipy>=1.13
+matplotlib>=3.9
+seaborn>=0.13
+jupyter>=1.0
+notebook>=7.0
