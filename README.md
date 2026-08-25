@@ -1,185 +1,127 @@
-<div align="center">
+# Anomaly Detection for Distributed Control Systems
 
-# 🔷 Machine Learning-Based Anomaly Detection in Distributed Control Systems
+Comparative evaluation of machine learning anomaly detection against a conventional
+threshold-based DCS alarm, on the complete Tennessee Eastman Process (TEP) benchmark,
+with SHAP-based explainability for alarm rationalisation.
 
-### Using the Tennessee Eastman Process Dataset
+MSc AI final project — Maryam Ali (202509001), Bahrain Polytechnic, 2026.
+Full write-up: `202509001_Thesis_FINAL.docx` (this repository is the code companion to
+that thesis; see Appendix A for the citation back to this repository).
 
-![Python](https://img.shields.io/badge/Python-3.11-1E3A8A?style=for-the-badge&logo=python&logoColor=white)
-![scikit-learn](https://img.shields.io/badge/scikit--learn-2563EB?style=for-the-badge&logo=scikit-learn&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-1D4ED8&style=for-the-badge&logo=tensorflow&logoColor=white)
-![SHAP](https://img.shields.io/badge/SHAP-3B82F6?style=for-the-badge)
-![License](https://img.shields.io/badge/License-Academic-0EA5E9?style=for-the-badge)
-![Status](https://img.shields.io/badge/Status-In%20Progress-38BDF8?style=for-the-badge)
+## Research questions
 
-**MSc Artificial Intelligence · Bahrain Polytechnic**
-**Maryam Ali · Student ID 202509001**
+- **RQ1** — To what extent can machine learning models detect process anomalies more
+  accurately, and earlier, than a conventional threshold-based alarm?
+- **RQ2** — Which of Isolation Forest, Random Forest, and an LSTM Autoencoder achieves
+  the best trade-off between detection accuracy and false-alarm rate on TEP?
+- **RQ3** — How can SHAP-based explainability identify which process variables drive a
+  detected anomaly, in a way that supports engineer decision-making?
 
-</div>
+## Headline results
 
----
+Full leakage-audited protocol, complete dataset (15,330,000 rows, no subsampling),
+matched false-alarm budgets, Wilcoxon signed-rank significance testing across all 20
+fault classes. Full detail in Chapter 5 of the thesis.
 
-## 🔹 Overview
+| Model              |    F1 | ROC-AUC | Det. @ 1% FAR |  FAR  |
+|---------------------|------:|--------:|--------------:|------:|
+| Threshold (3σ)       | 0.478 |   0.720 |         31.6% | 0.96% |
+| Isolation Forest     | 0.747 |   0.864 |         46.0% | 5.56% |
+| **Random Forest**    | **0.864** | **0.919** | **71.1%** | 2.89% |
+| LSTM Autoencoder     | 0.795 |   0.859 |         62.2% | 4.37% |
 
-This repository contains the implementation for an MSc thesis investigating early, accurate anomaly detection in Distributed Control System (DCS) environments. The project benchmarks three machine learning paradigms — **unsupervised**, **supervised**, and **semi-supervised** — against the **Tennessee Eastman Process (TEP)** dataset, and applies **SHAP explainability** to translate model outputs into actionable insight for control-room engineers.
+Random Forest's improvement over the threshold baseline is statistically significant
+(p < 0.0001, Wilcoxon signed-rank, n = 20 fault classes). This result demonstrates
+substantially better detection at equal false-alarm cost — it is not a claim that the
+model detects faults earlier in absolute time; detection latency was only measured for
+Random Forest itself, not benchmarked against the threshold alarm's own response time.
 
-The work is grounded in real DCS operational practice, drawing on professional experience with the Yokogawa CENTUM VP platform.
-
----
-
-## 🔹 Table of Contents
-
-- [Research Questions](#-research-questions)
-- [Repository Structure](#-repository-structure)
-- [Dataset](#-dataset)
-- [Setup](#-setup)
-- [Reproducing Results](#-reproducing-results)
-- [Models](#-models)
-- [Results](#-results)
-- [Tech Stack](#-tech-stack)
-- [Author](#-author)
-- [Citation](#-citation)
-
----
-
-## 🔹 Research Questions
-
-| # | Question |
-|---|---|
-| **RQ1** | Can machine learning models detect process anomalies earlier and more accurately than traditional threshold-based methods? |
-| **RQ2** | Which of Isolation Forest, Random Forest, and LSTM Autoencoder achieves the best trade-off between detection accuracy and false alarm rate? |
-| **RQ3** | How can SHAP explainability identify which process variables drive detected anomalies, supporting DCS alarm rationalisation? |
-
----
-
-## 🔹 Repository Structure
+## Repository structure
 
 ```
-├── TEP_Anomaly_Detection.ipynb   # Full pipeline: data → EDA → models → SHAP
-├── figures/                      # Generated plots (confusion matrices, ROC, SHAP)
-├── models/                       # Saved LSTM Autoencoder weights
-├── csv/                          # Cached converted CSVs (generated on first run)
-├── requirements.txt              # Python dependencies
-└── README.md                     # This file
+anomaly-detection/
+├── README.md                     <- you are here
+├── requirements.txt               <- pinned Python dependencies
+├── LICENSE
+├── TEP_Thesis_Analysis_v5.ipynb   <- full analysis notebook, run top to bottom
+├── config.py                      <- central hyperparameter / path configuration
+├── data/                          <- NOT included, see "Data" below
+├── results/
+│   ├── tables/                    <- CSV exports of every results table (5.1-5.9)
+│   └── figures/                   <- PNG exports of every thesis figure
+└── models/                        <- saved model artifacts (optional, see note below)
 ```
 
+## Setup
 
----
-
-## 🔹 Dataset
-
-This project uses the **Tennessee Eastman Process (TEP)** simulation dataset.
-
-| | |
-|---|---|
-| **Source** | [Harvard Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/6C3JR1) |
-| **Citation** | Rieth, C. A., Amsel, B. D., Tran, R., & Cook, M. B. *Tennessee Eastman Reference Simulation Dataset for Fault Detection*. Harvard Dataverse. doi:10.7910/DVN/6C3JR1 |
-| **License** | CC0 (public domain) |
-| **Size** | 52 process variables · 21 fault types + normal operation |
-
-The dataset is **not redistributed in this repository** to keep it lightweight. Download the four `.RData` files directly from the Harvard Dataverse link above and place them in the project root before running the notebook. A working copy is also kept on Google Drive for personal backup.
-
----
-
-## 🔹 Setup
-
-**1. Clone the repository**
 ```bash
-git clone https://github.com/m-mudaffar/anomaly-detection <img width="468" height="24" alt="image" src="https://github.com/user-attachments/assets/5ecd4a1c-00f8-4274-aeaf-6b27ee7e51da" />
-
-cd msc-thesis-tep-anomaly-detection
-```
-
-**2. Create a virtual environment** *(recommended)*
-```bash
+git clone https://github.com/m-mudaffar/anomaly-detection.git
+cd anomaly-detection
 python3 -m venv venv
-source venv/bin/activate
-```
-
-**3. Install dependencies**
-```bash
+source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
+jupyter notebook TEP_Thesis_Analysis_v5.ipynb
 ```
 
-**4. Download the dataset**
-Download the four `.RData` files from [Harvard Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/6C3JR1) and place them in the project root.
+Developed and tested on Python 3.13, CPU only (consumer laptop, no GPU or cloud
+acceleration required — total training time across all three learned models is
+approximately 0.31 CPU-hours / 739 seconds).
 
-**5. Launch the notebook**
-```bash
-jupyter notebook TEP_Anomaly_Detection.ipynb
-```
+## Data
 
----
+The TEP dataset is generated by Rieth et al. (2017) and hosted on Harvard Dataverse
+under a CC0 1.0 (public domain) licence — free to download, no registration required.
 
-## 🔹 Reproducing Results
+- **Source:** https://doi.org/10.7910/DVN/6C3JR1
+- **Files needed:** `TEP_FaultFree_Training.csv`, `TEP_Faulty_Training.csv`,
+  `TEP_FaultFree_Testing.csv`, `TEP_Faulty_Testing.csv`
+- **Not included in this repository** — the four files total 15,330,000 rows and
+  exceed GitHub's per-file size limits. Download them from the link above and place
+  them in a local `data/` folder before running the notebook.
 
-Run all cells top to bottom. The notebook is fully self-contained:
+## Reproducing the results
 
-1. **Data loading** — converts `.RData` → cached CSV (first run only; subsequent runs load from cache)
-2. **EDA** — missing values, fault distribution, sensor time-series, correlation heatmap
-3. **Preprocessing** — binary framing (normal/fault), stratified 70/30 split, standardisation
-4. **Model training** — Isolation Forest → Random Forest → LSTM Autoencoder
-5. **Evaluation** — Precision, Recall, F1, ROC-AUC for all models on a shared test set
-6. **SHAP explainability** — TreeExplainer on Random Forest, summary + waterfall plots
+- Global random seed **42** (NumPy and TensorFlow) throughout.
+- Training/testing partitions are the dataset's own independent simulation runs — never
+  a random row-level split — to avoid temporal leakage between autocorrelated samples.
+- The notebook opens with a methodological-safeguards summary and closes with a table
+  mapping each research question to the exact cell and results file that answers it.
+- A dedicated leakage-audit cell hashes all ~15 million feature rows and confirms zero
+  overlap between the training and testing partitions before any model is scored.
 
-All figures save automatically to `figures/`. Random seed fixed at `42` throughout for full reproducibility.
+## Models and key hyperparameters
 
----
+| Model | Key settings |
+|---|---|
+| Static threshold | `\|z\| > 3.0`, fitted on normal training rows only |
+| Isolation Forest | `n_estimators=300, max_samples=50_000, random_state=42`, alarm threshold = 95th percentile of normal-data anomaly scores |
+| Random Forest | `n_estimators=100, max_depth=20, min_samples_leaf=5, class_weight="balanced", random_state=42` |
+| LSTM Autoencoder | LSTM(64) → RepeatVector → LSTM(64) → TimeDistributed(Dense), 10-sample (30-min) window, Adam/MSE, batch size 256, `random_state=42` |
 
-## 🔹 Models
+Full hyperparameter tables: Appendix C of the thesis.
 
-| Model | Paradigm | Role |
-|---|---|---|
-| 🔷 **Isolation Forest** | Unsupervised | Trains on normal data only; no labels required |
-| 🔷 **Random Forest** | Supervised | Full fault labels; basis for SHAP explainability |
-| 🔷 **LSTM Autoencoder** | Semi-supervised | Reconstruction error on 10-sample windows of normal operation |
+## Explainability
 
----
+SHAP (TreeExplainer) is applied to the trained Random Forest to produce a per-fault-class
+map of distinctive driver variables, intended to support DCS alarm rationalisation —
+see Chapter 5.2 and Chapter 6 of the thesis for the full discussion.
 
-## 🔹 Results
-
-| Model | Precision | Recall | F1-Score | ROC-AUC |
-|---|:---:|:---:|:---:|:---:|
-| Isolation Forest | `TBD` | `TBD` | `TBD` | `TBD` |
-| Random Forest | `TBD` | `TBD` | `TBD` | `TBD` |
-| LSTM Autoencoder | `TBD` | `TBD` | `TBD` | `TBD` |
-
-*Full results, ROC curves, and SHAP visualisations available in `figures/` after running the notebook.*
-
----
-
-## 🔹 Tech Stack
-
-![Python](https://img.shields.io/badge/-Python-1E3A8A?style=flat-square&logo=python&logoColor=white)
-![NumPy](https://img.shields.io/badge/-NumPy-2563EB?style=flat-square&logo=numpy&logoColor=white)
-![Pandas](https://img.shields.io/badge/-Pandas-1D4ED8?style=flat-square&logo=pandas&logoColor=white)
-![scikit-learn](https://img.shields.io/badge/-scikit--learn-3B82F6?style=flat-square&logo=scikit-learn&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/-TensorFlow-0EA5E9?style=flat-square&logo=tensorflow&logoColor=white)
-![SHAP](https://img.shields.io/badge/-SHAP-38BDF8?style=flat-square)
-![Jupyter](https://img.shields.io/badge/-Jupyter-1E40AF?style=flat-square&logo=jupyter&logoColor=white)
-
----
-
-## 🔹 Author
-
-**Maryam Ali**
-DCS Engineer· MSc Artificial Intelligence, Bahrain Polytechnic
-📧 202509001@polytechnic.bh
-
----
-
-## 🔹 Citation
+## Citation
 
 If referencing this work:
 
 ```
-M. Ali, "Machine Learning-Based Anomaly Detection in Distributed Control Systems
-Using the Tennessee Eastman Process Dataset," MSc Thesis, Bahrain Polytechnic, 2026.
+M. Ali, "Comparative Machine Learning Anomaly Detection and SHAP-Based Alarm
+Rationalisation for Distributed Control Systems," MSc AI Final Project,
+Bahrain Polytechnic, 2026. https://github.com/m-mudaffar/anomaly-detection
 ```
 
----
+## License
 
-<div align="center">
+Code in this repository is released under the MIT License (see `LICENSE`). The TEP
+dataset itself is separately licensed CC0 1.0 by its original authors (Rieth et al.,
+2017) — see the Data section above.
 
-*Submitted as part of the MSc AI Thesis, Bahrain Polytechnic — June–September 2026*
+## Contact
 
-</div>
+Maryam Ali — DCS Engineer, Yokogawa — 202509001@student.polytechnic.bh
