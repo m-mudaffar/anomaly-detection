@@ -1,7 +1,0 @@
-Comparison,median ΔF1,W,p-value,Significant (α=0.05)
-Random Forest vs Isolation Forest,0.069,27.0,0.0023,Yes
-Random Forest vs LSTM Autoencoder,0.007,32.0,0.0049,Yes
-Random Forest vs Threshold (3σ),0.348,3.0,0.0,Yes
-LSTM Autoencoder vs Isolation Forest,0.024,85.0,0.4749,No
-LSTM Autoencoder vs Threshold (3σ),0.288,3.0,0.0,Yes
-Isolation Forest vs Threshold (3σ),0.228,10.0,0.0001,Yes

@@ -1,5 +1,0 @@
-Model,Det @ 0.5% FAR,Det @ 1.0% FAR,Det @ 2.0% FAR,Det @ 5.0% FAR
-Threshold (3σ),0.292,0.316,0.345,0.391
-Isolation Forest,0.422,0.46,0.51,0.594
-Random Forest,0.682,0.711,0.75,0.787
-LSTM Autoencoder,0.609,0.625,0.642,0.675

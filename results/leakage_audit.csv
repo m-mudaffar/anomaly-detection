@@ -1,6 +1,0 @@
-Check,Result
-Random train/test splitting used,No
-Exact rows shared train<->test,0
-LSTM fit/val run overlap,0
-Windows cross run boundaries,No
-Scaler fitted on test data,No

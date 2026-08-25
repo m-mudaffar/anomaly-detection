@@ -1,5 +1,0 @@
-,Detection rate,False-alarm rate,Miss rate,MCC,ROC-AUC
-Threshold (3σ),0.3145,0.0096,0.6855,0.2843,0.7197
-Isolation Forest,0.6048,0.0556,0.3952,0.4445,0.8645
-Random Forest,0.7659,0.0289,0.2341,0.6126,0.919
-LSTM Autoencoder,0.6702,0.0448,0.3298,0.5079,0.8596
